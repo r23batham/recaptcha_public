@@ -3,7 +3,7 @@
 <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=6LcL5zkpAAAAAI7K9CYIHhAQbvEhfXdcDfg_T_S3&h1=en" async defer>
 
 </script>
-<script>
+  <script>
     function runRecaptcha() {
       if (typeof grecaptcha === 'undefined') {
         console.log('reCAPTCHA has not loaded yet.');
@@ -14,9 +14,9 @@
         grecaptcha.execute('6LcL5zkpAAAAAI7K9CYIHhAQbvEhfXdcDfg_T_S3')
           .then(function (token) {
             console.log("reCAPTCHA token:", token);
-            // For display/testing purposes
             const tokenDisplay = document.getElementById("tokenDisplay");
             tokenDisplay.textContent = "reCAPTCHA token: " + token;
+            // You can now submit this token to your backend if needed
           })
           .catch(function (error) {
             console.log('reCAPTCHA failed:', error);
@@ -25,14 +25,10 @@
           });
       });
     }
-
-    // Run on page load
-    window.onload = function() {
-      runRecaptcha();
-    };
   </script>
 </head>
 <body>
-  <p id="tokenDisplay">Waiting for reCAPTCHA...</p>
+  <button onclick="runRecaptcha()">Submit</button>
+  <p id="tokenDisplay">Click the button to get reCAPTCHA token.</p>
 </body>
 </html>
