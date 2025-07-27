@@ -3,10 +3,12 @@
 <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=6LcL5zkpAAAAAI7K9CYIHhAQbvEhfXdcDfg_T_S3&h1=en" async defer>
 
 </script>
-  <script>
-    function runRecaptcha() {
+   <script>
+    function onFormSubmit(event) {
+      event.preventDefault(); // Prevent default form submission
+
       if (typeof grecaptcha === 'undefined') {
-        console.log('reCAPTCHA has not loaded yet.');
+        console.log('reCAPTCHA not loaded.');
         return;
       }
 
@@ -14,21 +16,26 @@
         grecaptcha.execute('6LcL5zkpAAAAAI7K9CYIHhAQbvEhfXdcDfg_T_S3')
           .then(function (token) {
             console.log("reCAPTCHA token:", token);
-            const tokenDisplay = document.getElementById("tokenDisplay");
-            tokenDisplay.textContent = "reCAPTCHA token: " + token;
-            // You can now submit this token to your backend if needed
+            document.getElementById("tokenDisplay").textContent = "reCAPTCHA token: " + token;
+
+            // You can now submit this token to your backend with the form, e.g. via AJAX,
+            // or populate a hidden input and submit the form programmatically
           })
           .catch(function (error) {
             console.log('reCAPTCHA failed:', error);
-            const tokenDisplay = document.getElementById("tokenDisplay");
-            tokenDisplay.textContent = "reCAPTCHA failed: " + error;
+            document.getElementById("tokenDisplay").textContent = "reCAPTCHA failed: " + error;
           });
       });
     }
   </script>
 </head>
 <body>
-  <button onclick="runRecaptcha()">Submit</button>
-  <p id="tokenDisplay">Click the button to get reCAPTCHA token.</p>
+  <form id="myForm" onsubmit="onFormSubmit(event)">
+    <!-- Your other form fields go here -->
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="tokenDisplay">Click submit to trigger reCAPTCHA.</p>
 </body>
 </html>
