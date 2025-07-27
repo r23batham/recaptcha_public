@@ -4,15 +4,35 @@
 
 </script>
 <script>
-function vcRecaptchaApiLoaded(){
-grecaptcha.ready(function () {
-            grecaptcha.execute('6LcL5zkpAAAAAI7K9CYIHhAQbvEhfXdcDfg_T_S3')
-                .then(function (token) {
-					document.write("reCAPTCHA token received:", token);
-                });
-        });
-}
-</script>
+    function runRecaptcha() {
+      if (typeof grecaptcha === 'undefined') {
+        console.log('reCAPTCHA has not loaded yet.');
+        return;
+      }
+
+      grecaptcha.ready(function () {
+        grecaptcha.execute('6LcL5zkpAAAAAI7K9CYIHhAQbvEhfXdcDfg_T_S3')
+          .then(function (token) {
+            console.log("reCAPTCHA token:", token);
+            // For display/testing purposes
+            const tokenDisplay = document.getElementById("tokenDisplay");
+            tokenDisplay.textContent = "reCAPTCHA token: " + token;
+          })
+          .catch(function (error) {
+            console.log('reCAPTCHA failed:', error);
+            const tokenDisplay = document.getElementById("tokenDisplay");
+            tokenDisplay.textContent = "reCAPTCHA failed: " + error;
+          });
+      });
+    }
+
+    // Run on page load
+    window.onload = function() {
+      runRecaptcha();
+    };
+  </script>
 </head>
-<body></body>
+<body>
+  <p id="tokenDisplay">Waiting for reCAPTCHA...</p>
+</body>
 </html>
