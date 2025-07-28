@@ -5,7 +5,7 @@
 </script>
    <script>
     function onFormSubmit(event) {
-
+if ($event) $event.preventDefault(); // Prevent native submission
 
       if (typeof grecaptcha === 'undefined') {
         console.log('reCAPTCHA not loaded.');
